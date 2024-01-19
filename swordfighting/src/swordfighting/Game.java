@@ -1,4 +1,4 @@
-package swordfighting.src.swordfighting;
+package swordfighting;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -11,13 +11,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Game extends JPanel implements ActionListener, KeyListener {
-    public static final int WINDOW_WIDTH = 750, WINDOW_HEIGHT = 500;
-    public static final int WinWidth = 750, WinHeight = 450;
+    public static final int WindowWidth = 750, WindowHeight = 500;
 
     private final Timer timer;
+    public final Player player;
 
     public Game() { // Variables at game start
-
+        this.player = new Player(
+            WindowWidth/2,
+            300
+        );
         
         this.timer = new Timer(1, this);
         this.timer.start();
@@ -34,17 +37,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
     }
         @Override
-        public void paint(Graphics g) { // draw and do crap
+        public void paint(Graphics g) { // DRAWING - - - - - - - - - - -
     
             // Draw background
             g.setColor(Color.BLACK);
-            g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-            // Draw GROUND
-            g.setColor(Color.WHITE);
-            g.fillRect(0, WinHeight, WINDOW_WIDTH, 15); // 0, 450
+            g.fillRect(0, 0, WindowWidth, WindowHeight);
     
             // Draw Entities
-            
+            player.render(g);
     
             // Draw Score
             g.setColor(Color.WHITE);
