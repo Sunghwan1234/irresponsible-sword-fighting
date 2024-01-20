@@ -1,1 +1,1 @@
-## woh uh im new to github and dont know wtf im doing
+## woh uh im new to java and dont know wtf im doing
