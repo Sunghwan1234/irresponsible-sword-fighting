@@ -2,7 +2,7 @@ package dodge;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
+import static java.lang.Math.PI;
 
 public class Boss {
     public double posX, posY;
@@ -11,32 +11,62 @@ public class Boss {
     public double[][] object = new double[1000][5];
     public int count = 0;
 
-    public double beat = Math.floor((Game.tick-14)/30.1);
+    public double beat = Math.floor((Game.tick-13)/30.1);
     
     public Boss(double posX, double posY) {
         this.posX = posX; this.posY = posY;
 
     }
     public void actions() {
-        // The beat is 30.1 ticks (very accurate, Tested), starts at 0 at 14 first beat at 44
+        // The beat is 30.1 ticks (very accurate, Tested), starts at 0 at 13 first beat at 44
 
-        shoot(1,0,74);
-        shoot(1,0,104);
-        shoot(1,0,134);
+        shoot(2,0,74);
+        shoot(2,0,104);
+        shoot(2,0,134);
+        // REST
+        shoot(2,100,194);
+        shoot(2,100,224);
+        shoot(2,100,254);
+
+        shoot(2,260,284);
+        shootduo(260,20,292);
+        shoot(2,260,299);
+        shootduo(260,20,307);
+
+        shoot(2,180,337);
+
     }
     public void shoot(int type, double deg, int tickreq) {
         if (Game.tick==tickreq) {
+            // Variables
+            int speed = 3;
+
+
             switch (type) {
                 case 1:
-                    // posX posY, PTX PTY, PTY-posY/PTX-posX
+                    double dx = Math.sin((deg)*PI/180); double dy = Math.cos((deg)*PI/180);
+                    double spx = speed*dx; double spy = speed*dy;
+                    double sx = 50*dx; double sy = 50*dy;
+
+                    object[count][0] = 1;
+                    object[count][1]=posX+sx; object[count][2]=posY-sy;
+                    object[count][3]=spx; object[count][4]=-spy;
+                    count+=1;
+                    break;
+                case 2:
+                    double Ldx = Math.sin((deg-40)*PI/180); double Ldy = Math.cos((deg-40)*PI/180);
+                    double Rdx = Math.sin((deg+40)*PI/180); double Rdy = Math.cos((deg+40)*PI/180);
+                    double Lx = 50*Ldx; double Ly = 50*Ldy; double Rx = 50*Rdx; double Ry = 50*Rdy;
+                    double Lspeedx = speed*Ldx; double Lspeedy = speed*Ldy;
+                    double Rspeedx = speed*Rdx; double Rspeedy = speed*Rdy;
 
                     object[count][0]=1;
-                    object[count][1]=posX-25; object[count][2]=posY-43;
-                    object[count][3]=-4; object[count][4]=-8;
+                    object[count][1]=posX+Lx; object[count][2]=posY-Ly;
+                    object[count][3]=Lspeedx; object[count][4]=-Lspeedy;
                     count+=1;
                     object[count][0]=1;
-                    object[count][1]=posX+25; object[count][2]=posY-43;
-                    object[count][3]=4; object[count][4]=-8;
+                    object[count][1]=posX+Rx; object[count][2]=posY-Ry;
+                    object[count][3]=Rspeedx; object[count][4]=-Rspeedy;
                     count+=1;
                     break;
                 default:
@@ -44,7 +74,28 @@ public class Boss {
             }
         }
     }
+    public void shootduo(double deg, double ideg, double tickreq) {
+        if (Math.floor(Game.tick)==tickreq) {
+                int speed = 3;
 
+                double Ldx = Math.sin((deg-ideg)*PI/180); double Ldy = Math.cos((deg-ideg)*PI/180);
+                double Rdx = Math.sin((deg+ideg)*PI/180); double Rdy = Math.cos((deg+ideg)*PI/180);
+
+                double Lx = 50*Ldx; double Ly = 50*Ldy; double Rx = 50*Rdx; double Ry = 50*Rdy;
+
+                double Lspeedx = speed*Ldx; double Lspeedy = speed*Ldy;
+                double Rspeedx = speed*Rdx; double Rspeedy = speed*Rdy;
+
+                object[count][0]=1;
+                object[count][1]=posX+Lx; object[count][2]=posY-Ly;
+                object[count][3]=Lspeedx; object[count][4]=-Lspeedy;
+                count+=1;
+                object[count][0]=1;
+                object[count][1]=posX+Rx; object[count][2]=posY-Ry;
+                object[count][3]=Rspeedx; object[count][4]=-Rspeedy;
+                count+=1;
+        }
+    }
     public void render(Graphics g) {
 
 
