@@ -25,7 +25,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     public Game() { // Variables at game start
         this.player = new Player(WindowWidth/2,400);
-        this.boss = new Boss(WindowWidth/2, WindowHeight/2);
+        this.boss = new Boss(WindowWidth/2, WindowHeight/2, 0);
         
         this.sound = new Sound("LLTNF.wav");
         this.sound.play();
